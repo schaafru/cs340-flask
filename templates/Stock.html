@@ -10,7 +10,7 @@
         <a class="active" href="/">Home</a>
         <a href="/weapon">Weapons</a>
         <a href="/customer">Customer</a>
-        <a href="/order">Order</a>
+        <a href="/orders">Order</a>
         <a href="/stock">Stock</a>
       </div>
     </div>
@@ -27,27 +27,14 @@
                         <th>Weapon Type</th>
                         <th>Action</th>
                     </tr>
+                    {% for r in rows%}
                     <tr bgcolor="#ffffff">
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td>Data</td>
+                        <td>{{ r.0 }}</td>
+                        <td>{{ r[1] }}</td>
+                        <td>{{ r[2] }}</td>
                         <td><button type="button">Delete</button></td>
                     </tr>
-                    <tr bgcolor="#ffffff">
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td><button type="button">Delete</button></td>
-                    </tr>
-                    <tr bgcolor="#ffffff">
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td>Data</td>
-                        <td><button type="button">Delete</button></td>
-                    </tr>
+                    {% endfor %}
                 </table>
             </td>
         </tr>

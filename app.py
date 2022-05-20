@@ -1,4 +1,3 @@
-import MySQLdb
 import MySQLdb.cursors
 from flask import render_template
 import flask
@@ -29,28 +28,36 @@ def home():
 @webapp.route('/weapon')
 def weapon():
     cursor =  db_conn.cursor()
-    r = cursor.execute("SELECT weapon_ID, order_ID, price FROM Weapon;")
+    cursor.execute("SELECT weapon_ID, order_ID, price FROM Weapon;")
+    r = cursor.fetchall()
+    print(r)
     return render_template('Weapon.html', rows=r)
 
 
-@webapp.route('/order')
-def order():
+@webapp.route('/orders')
+def orders():
     cursor = db_conn.cursor()
-    r = cursor.execute("SELECT order_ID, customer_ID, weapon_ID, currency, order_date FROM Order;")
-    return render_template('Order.html', rows=r)
+    cursor.execute("SELECT order_ID, customer_ID, weapon_ID, currency, order_date FROM Orders;")
+    r = cursor.fetchall()
+    print(r)
+    return render_template('Orders.html', rows=r)
 
 
 @webapp.route('/stock')
 def stock():
     cursor = db_conn.cursor()
-    r = cursor.execute("SELECT total_number_of_items, number_of_items_remaining, weapon_ID, weapon_type FROM Stock;")
+    cursor.execute("SELECT total_number_of_items, number_of_items_available, weapon_ID, weapon_type FROM Stock;")
+    r = cursor.fetchall()
+    print(r)
     return render_template('Stock.html', rows=r)
 
 
 @webapp.route('/customer')
 def customer():
     cursor = db_conn.cursor()
-    r = cursor.execute("SELECT name, address, customer_ID FROM Customer;")
+    cursor.execute("SELECT name, address, customer_ID FROM Customer;")
+    r = cursor.fetchall()
+    print(r)
     return render_template('Customer.html', rows=r)
 
 
