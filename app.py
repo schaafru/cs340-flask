@@ -68,9 +68,9 @@ def customer():
         name = details['name']
         address = details['address']
         customer_ID = details['customer_ID']
-        cursor.execute("INSERT INTO Customer (name, address, customer_ID) VALUES (%s, %s, %s)", (name, address, customer_ID))
+        data = (name, address, customer_ID)
+        cursor.execute("INSERT INTO Customer (name, address, customer_ID) VALUES (%s, %s, %s)", data)
         return render_template('Customer.html')
-
 
 if __name__ == '__main__':
     webapp.run()
