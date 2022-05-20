@@ -1,5 +1,5 @@
 import MySQLdb.cursors
-from flask import render_template
+from flask import render_template, request
 import flask
 import configparser
 
@@ -52,13 +52,24 @@ def stock():
     return render_template('Stock.html', rows=r)
 
 
-@webapp.route('/customer')
+@webapp.route('/customer', methods=['POST', 'GET'])
 def customer():
     cursor = db_conn.cursor()
-    cursor.execute("SELECT name, address, customer_ID FROM Customer;")
-    r = cursor.fetchall()
-    print(r)
-    return render_template('Customer.html', rows=r)
+
+    if request.method == "GET":
+        cursor.execute("SELECT name, address, customer_ID FROM Customer;")
+        r = cursor.fetchall()
+        print(r)
+        return render_template('Customer.html', rows=r)
+
+    elif request.method == "POST":
+        cursor = db_conn.cursor()
+        details = request.form
+        name = details['name']
+        address = details['address']
+        customer_ID = details['customer_ID']
+        cursor.execute("INSERT INTO Customer (name, address, customer_ID) VALUES (%s, %s, %s)", (name, address, customer_ID))
+        return render_template('Customer.html')
 
 
 if __name__ == '__main__':
