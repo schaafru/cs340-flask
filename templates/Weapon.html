@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+    <div class="header">
+      <div class="header-right">
+        <a class="active" href="/">Home</a>
+        <a href="/weapon">Weapons</a>
+        <a href="/customer">Customer</a>
+        <a href="/order">Order</a>
+        <a href="/stock">Stock</a>
+      </div>
+    </div>
+    <h1 align="center">Weapons</h1>
+    <table cellspacing="0" cellpadding="0" border="0" bgcolor="#000000" align="center">
+        <tr>
+            <td>
+                <table cellspacing="3" border="0">
+                    <tr bgcolor="#ffffff">
+                        <th>Weapon_ID</th>
+                        <th>Order_ID</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for r in rows %}
+                    <tr bgcolor="#ffffff">
+                        <td>{{r.0}}</td>
+                        <td>{{r[1]}}</td>
+                        <td>{{r[2]}}</td>
+                        <td><button type="button">Delete</button></td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </td>
+        </tr>
+    </table>
+
+   <h2 align="center">Add New Weapon</h2>
+    <div class="form" align="center">
+        <label>Weapon ID:</label>
+        <input type="text" value="" readonly>
+        <br>
+        <label>Order ID:</label>
+        <input type="text" value="" readonly>
+        <br>
+        <label>Price:</label>
+        <input type="text" value="" readonly>
+        <br>
+        <input type = "submit" value="Submit">
+    </div>
+
+<h3 align="center">Update Weapon</h3>
+    <div class="form" align="center">
+        <label>Weapon ID:</label>
+        <input type="text" value="" readonly>
+        <br>
+        <label>Order ID:</label>
+        <input type="text" value="" readonly>
+        <br>
+        <label>Price:</label>
+        <input type="text" value="" readonly>
+        <br>
+        <input type = "submit" value="Submit">
+    </div>
+
+</body>
+
+</html>
