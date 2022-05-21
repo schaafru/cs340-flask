@@ -46,6 +46,7 @@ def weapon():
         data = (currency, customer_ID, order_date, order_ID, weapon_ID)
         cursor.execute("INSERT INTO Weapon (currency, customer_ID, order_date, order_ID, weapon_ID) VALUES "
                        "(%s, %s, %s, %s, %s)", data)
+        db_conn.commit()
         return render_template('Weapon.html')
 
 
@@ -69,6 +70,7 @@ def orders():
         order_date = details['order_date']
         data = (order_ID, price, weapon_ID, currency, order_date)
         cursor.execute("INSERT INTO Orders (order_ID, price, weapon_ID) VALUES (%s, %s, %s, %s, %s)", data)
+        db_conn.commit()
         return render_template('Orders.html')
 
 
@@ -92,6 +94,7 @@ def stock():
         data = (number_of_items_available, total_number_of_items, weapon_ID, weapon_type)
         cursor.execute("INSERT INTO Stock (number_of_items_available, total_number_of_items, weapon_ID, weapon_type) "
                        "VALUES (%s, %s, %s, %s)", data)
+        db_conn.commit()
         return render_template('Stock.html')
 
 
@@ -113,6 +116,7 @@ def customer():
         customer_ID = details['customer_ID']
         data = (name, address, customer_ID)
         cursor.execute("INSERT INTO Customer (name, address, customer_ID) VALUES (%s, %s, %s)", data)
+        db_conn.commit()
         return render_template('Customer.html')
 
 
