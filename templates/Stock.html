@@ -32,6 +32,7 @@
                         <td>{{ r.0 }}</td>
                         <td>{{ r[1] }}</td>
                         <td>{{ r[2] }}</td>
+                        <td>{{ r[3] }}</td>
                         <td><button type="button">Delete</button></td>
                     </tr>
                     {% endfor %}
@@ -41,21 +42,13 @@
     </table>
 
     <h2 align="center">Add Stock</h2>
-    <div class="form" align="center">
-        <label>Total Number of Items:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <label>Number of Items Available:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <label>Weapon ID:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <label>Weapon Type:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <input type = "submit" value="Submit">
-    </div>
+    <form id="addstock" method="POST" align="center">
+        number_of_items_available: <input type="text" name="number_of_items_available"><br>
+        total_number_of_items: <input type="text" name="total_number_of_items"><br>
+        weapon_ID: <input type="text" name="weapon_ID"><br>
+        weapon_type: <input type="text" name="weapon_type"><br>
+        <input type="submit" value="Submit">
+    </form>
 
     <h3 align="center">Update Stock</h3>
     <div class="form" align="center">

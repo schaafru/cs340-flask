@@ -33,6 +33,8 @@
                         <td>{{ r.0 }}</td>
                         <td>{{ r[1] }}</td>
                         <td>{{ r[2] }}</td>
+                        <td>{{ r[3] }}</td>
+                        <td>{{ r[4] }}</td>
                         <td><button type="button">Delete</button></td>
                     </tr>
                     {% endfor %}
@@ -42,26 +44,14 @@
     </table>
 
    <h2 align="center">Add New Order</h2>
-    <div class="form" align="center">
-        <label>Order ID</label>
-        <input type="text" value="" readonly>
-        <br>
-        <label>Customer ID</label>
-        <input type="text" value="" readonly>
-        <br>
-        <label>Weapon ID:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <br>
-        <label>Currency:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <br>
-        <label>Order Date:</label>
-        <input type="text" value="" readonly>
-        <br>
-        <input type = "submit" value="Submit">
-    </div>
+    <form id="addorder" method="POST" align="center">
+        currency: <input type="text" name="currency"><br>
+        customer_ID: <input type="text" name="customer_ID"><br>
+        order_date: <input type="date" name="order_date"><br>
+        order_ID: <input type="text" name="order_ID"><br>
+        weapon_ID: <input type="text" name="weapon_ID"><br>
+        <input type="submit" value="Submit">
+    </form>
 
     <h3 align="center">Update an Order</h3>
     <div class="form" align="center">
