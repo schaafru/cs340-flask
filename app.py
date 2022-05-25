@@ -25,8 +25,13 @@ def home():
     return render_template('Home.html')
 
 
-@webapp.route('/weapon', methods=['POST', 'GET'])
+@webapp.route('/weapon/')
 def weapon():
+    return render_template('Weapon.html')
+
+
+@webapp.route('/weapon', methods=['POST', 'GET'])
+def weapon_result():
     cursor =  db_conn.cursor()
 
     if request.method == "GET":
