@@ -183,6 +183,18 @@ def customer_update(id):
         conn.commit()
         return render_template('Customer.html')
 
+@webapp.route('/customer/<int:id>')
+def customer_delete(id):
+    conn = db_conn()
+    cursor = conn.cursor()
+
+    details = request.form
+    customer_ID = details['customer_ID']
+    data = (customer_ID)
+    cursor.execute("DELETE FROM Customer WHERE customer_ID = %s", data)
+    conn.commit()
+    return render_template('Customer.html')
+
 
 if __name__ == '__main__':
     webapp.run()

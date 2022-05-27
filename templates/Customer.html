@@ -32,7 +32,7 @@
                             <td>{{ r.0 }}</td>
                             <td>{{ r[1] }}</td>
                             <td>{{ r[2] }}</td>
-                            <td><button type="button">Delete</button></td>
+                            <td><input type="button" name="Delete" value="Delete" onclick="window.location = '/customer_delete/{{r[4]}}'"></td>
                         </tr>
                         {% endfor %}
                     </table>
