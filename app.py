@@ -1,21 +1,26 @@
-import MySQLdb.cursors
+import MySQLdb, MySQLdb.cursors, os
 from flask import render_template, request
 import flask
 import configparser
 
 
-def read_mysql_config(mysql_config_file_name: str):
+def read_config_section(config_file_name: str,
+                        section: str) -> dict:
     config = configparser.ConfigParser()
-    config.read(mysql_config_file_name)
-    return dict(config['client'])
+    config.read(config_file_name)
+    return dict(config[section if section is not None else 'client'])
 
 
-config_info = read_mysql_config("../.my.cnf")
+mysql_config = read_config_section(os.path.join(os.path.expanduser("~"), ".my.cnf"),
+                                   "client")
 
-db_conn = MySQLdb.connect(config_info['host'],
-                          config_info['user'],
-                          config_info['password'],
-                          config_info['database'])
+config_info_list = [mysql_config[k]
+                    for k in ['host', 'user', 'password', 'database']]
+
+
+def db_conn():
+    return MySQLdb.connect(*config_info_list)
+
 
 webapp = flask.Flask(__name__, static_url_path='/static')
 
@@ -27,7 +32,8 @@ def home():
 
 @webapp.route('/weapon/')
 def weapon():
-    cursor =  db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     cursor.execute("SELECT weapon_ID, order_ID, price FROM Weapon;")
     r = cursor.fetchall()
@@ -37,43 +43,42 @@ def weapon():
 
 @webapp.route('/weapon', methods=['POST', 'GET'])
 def weapon_result():
-    cursor =  db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     if request.method == "POST":
         details = request.form
-        currency = details['currency']
-        customer_ID = details['customer_ID']
-        order_date = details['order_date']
+        price = details['price']
         order_ID = details['order_ID']
         weapon_ID = details['weapon_ID']
-        data = (currency, customer_ID, order_date, order_ID, weapon_ID)
-        cursor.execute("INSERT INTO Weapon (currency, customer_ID, order_date, order_ID, weapon_ID) VALUES "
-                       "(%s, %s, %s, %s, %s)", data)
-        db_conn.commit()
+        data = (price, order_ID, weapon_ID)
+        cursor.execute("INSERT INTO Weapon (price, order_ID, weapon_ID) VALUES "
+                       "(%s, %s, %s)", data)
+        conn.commit()
         return render_template('Weapon.html')
 
 
 @webapp.route('/weapon', methods=['POST', 'GET'])
 def weapon_update():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     if request.method == "POST":
         details = request.form
-        currency = details['currency']
-        customer_ID = details['customer_ID']
-        order_date = details['order_date']
+        price = details['price']
         order_ID = details['order_ID']
         weapon_ID = details['weapon_ID']
-        data = (currency, customer_ID, order_date, order_ID, weapon_ID)
-        cursor.execute("UPDATE Weapon SET (currency, customer_ID, order_date, order_id, weapon_ID) VALUES " 
-                       "(%s, %s, %s, %s, %s)", data)
-        db_conn.commit()
+        data = (price, order_ID, weapon_ID)
+        cursor.execute("UPDATE Weapon SET (price, order_id, weapon_ID) VALUES "
+                       "(%s, %s, %s)", data)
+        conn.commit()
         return render_template('Weapon.html')
 
 
 @webapp.route('/orders/')
 def orders():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     cursor.execute("SELECT order_ID, customer_ID, weapon_ID, currency, order_date FROM Orders;")
     r = cursor.fetchall()
@@ -83,7 +88,8 @@ def orders():
 
 @webapp.route('/orders', methods=['POST', 'GET'])
 def order_results():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     if request.method == "POST":
         details = request.form
@@ -94,13 +100,14 @@ def order_results():
         order_date = details['order_date']
         data = (order_ID, price, weapon_ID, currency, order_date)
         cursor.execute("INSERT INTO Orders (order_ID, price, weapon_ID) VALUES (%s, %s, %s, %s, %s)", data)
-        db_conn.commit()
+        conn.commit()
         return render_template('Orders.html')
 
 
 @webapp.route('/stock/')
 def stock():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     cursor.execute("SELECT number_of_items_available, total_number_of_items, weapon_ID, weapon_type FROM Stock;")
     r = cursor.fetchall()
@@ -110,7 +117,8 @@ def stock():
 
 @webapp.route('/stock', methods=['POST', 'GET'])
 def stock_results():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     if request.method == "POST":
         details = request.form
@@ -121,13 +129,14 @@ def stock_results():
         data = (number_of_items_available, total_number_of_items, weapon_ID, weapon_type)
         cursor.execute("INSERT INTO Stock (number_of_items_available, total_number_of_items, weapon_ID, weapon_type) "
                        "VALUES (%s, %s, %s, %s)", data)
-        db_conn.commit()
+        conn.commit()
         return render_template('Stock.html')
 
 
 @webapp.route('/customer/')
 def customer():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     cursor.execute("SELECT name, address, customer_ID FROM Customer;")
     r = cursor.fetchall()
@@ -137,7 +146,8 @@ def customer():
 
 @webapp.route('/customer', methods=['POST', 'GET'])
 def customer_results():
-    cursor = db_conn.cursor()
+    conn = db_conn()
+    cursor = conn.cursor()
 
     if request.method == "POST":
         details = request.form
@@ -145,7 +155,34 @@ def customer_results():
         address = details['address']
         data = (name, address)
         cursor.execute("INSERT INTO Customer (name, address) VALUES (%s, %s)", data)
-        db_conn.commit()
+        conn.commit()
+        return render_template('Customer.html')
+
+
+@webapp.route('/customer/<int:id>', methods=['POST', 'GET'])
+def customer_update(id):
+    conn = db_conn()
+    cursor = conn.cursor()
+
+    if request.method == "GET":
+        cursor.execute('SELECT name, address, customer_ID from Customer WHERE id = %s'
+                       % id)
+        customer_result = cursor.fetchone()
+
+        if customer_result is None:
+            return "No such person found!"
+
+        return render_template('Customer.html', customer=customer_result)
+
+    if request.method == "POST":
+        details = request.form
+        customer_ID = details['customer_ID']
+        name = details['name']
+        address = details['address']
+        data = (name, address, customer_ID)
+        cursor.execute("UPDATE Customer SET (name, address) VALUES "
+                       "(%s, %s) WHERE id = %s", data)
+        conn.commit()
         return render_template('Customer.html')
 
 
