@@ -42,7 +42,7 @@
     </table>
 
     <h2 align="center">Add Stock</h2>
-    <form id="addstock" method="POST" align="center">
+    <form id="addstock" method="POST" align="center" action="{{ url_for('stock_results') }}">
         Number of Items Available: <input type="text" name="number_of_items_available"><br>
         Total Number of Items: <input type="text" name="total_number_of_items"><br>
         Weapon ID: <input type="text" name="weapon_ID"><br>

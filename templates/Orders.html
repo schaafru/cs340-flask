@@ -44,7 +44,7 @@
     </table>
 
    <h2 align="center">Add New Order</h2>
-    <form id="addorder" method="POST" align="center">
+    <form id="addorder" method="POST" align="center" action="{{ url_for('order_results') }}">
         Currency: <input type="text" name="currency"><br>
         Customer ID: <input type="text" name="customer_ID"><br>
         Order Date: <input type="date" name="order_date"><br>

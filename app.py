@@ -27,21 +27,19 @@ def home():
 
 @webapp.route('/weapon/')
 def weapon():
-    return render_template('Weapon.html')
+    cursor =  db_conn.cursor()
+
+    cursor.execute("SELECT weapon_ID, order_ID, price FROM Weapon;")
+    r = cursor.fetchall()
+    print(r)
+    return render_template('Weapon.html', rows=r)
 
 
 @webapp.route('/weapon', methods=['POST', 'GET'])
 def weapon_result():
     cursor =  db_conn.cursor()
 
-    if request.method == "GET":
-        cursor.execute("SELECT weapon_ID, order_ID, price FROM Weapon;")
-        r = cursor.fetchall()
-        print(r)
-        return render_template('Weapon.html', rows=r)
-
-    elif request.method == "POST":
-        cursor = db_conn.cursor()
+    if request.method == "POST":
         details = request.form
         currency = details['currency']
         customer_ID = details['customer_ID']
@@ -57,21 +55,19 @@ def weapon_result():
 
 @webapp.route('/orders/')
 def orders():
-    return render_template('Orders.html')
+    cursor = db_conn.cursor()
+
+    cursor.execute("SELECT order_ID, customer_ID, weapon_ID, currency, order_date FROM Orders;")
+    r = cursor.fetchall()
+    print(r)
+    return render_template('Orders.html', rows=r)
 
 
 @webapp.route('/orders', methods=['POST', 'GET'])
 def order_results():
     cursor = db_conn.cursor()
 
-    if request.method == "GET":
-        cursor.execute("SELECT order_ID, customer_ID, weapon_ID, currency, order_date FROM Orders;")
-        r = cursor.fetchall()
-        print(r)
-        return render_template('Orders.html', rows=r)
-
-    elif request.method == "POST":
-        cursor = db_conn.cursor()
+    if request.method == "POST":
         details = request.form
         order_ID = details['order_ID']
         price = details['price']
@@ -86,21 +82,19 @@ def order_results():
 
 @webapp.route('/stock/')
 def stock():
-    return render_template('Stock.html')
+    cursor = db_conn.cursor()
+
+    cursor.execute("SELECT number_of_items_available, total_number_of_items, weapon_ID, weapon_type FROM Stock;")
+    r = cursor.fetchall()
+    print(r)
+    return render_template('Stock.html', rows=r)
 
 
 @webapp.route('/stock', methods=['POST', 'GET'])
 def stock_results():
     cursor = db_conn.cursor()
 
-    if request.method == "GET":
-        cursor.execute("SELECT number_of_items_available, total_number_of_items, weapon_ID, weapon_type FROM Stock;")
-        r = cursor.fetchall()
-        print(r)
-        return render_template('Stock.html', rows=r)
-
-    elif request.method == "POST":
-        cursor = db_conn.cursor()
+    if request.method == "POST":
         details = request.form
         number_of_items_available = details['number_of_items_available']
         total_number_of_items = details['total_number_of_items']
