@@ -16,34 +16,35 @@
     </div>
     <h1 align="center">Customer</h1>
 
-    <table cellspacing="0" cellpadding="0" border="0" bgcolor="#000000" align="center">
-        <tr>
-            <td>
-                <table cellspacing="3" border="0">
-                    <tr bgcolor="#ffffff">
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Customer ID</th>
-                        <th>Action</th>
-                    </tr>
-                    {% for r in rows%}
-                    <tr bgcolor="#ffffff">
-                        <td>{{ r.0 }}</td>
-                        <td>{{ r[1] }}</td>
-                        <td>{{ r[2] }}</td>
-                        <td><button type="button">Delete</button></td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </td>
-        </tr>
-    </table>
+        <table cellspacing="0" cellpadding="0" border="0" bgcolor="#000000" align="center">
+            <tr>
+                <td>
+                    <form id="displaycustomers" method="GET" action="{{ url_for('customer_results') }}">
+                    <table cellspacing="3" border="0">
+                        <tr bgcolor="#ffffff">
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Customer ID</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for r in rows%}
+                        <tr bgcolor="#ffffff">
+                            <td>{{ r.0 }}</td>
+                            <td>{{ r[1] }}</td>
+                            <td>{{ r[2] }}</td>
+                            <td><button type="button">Delete</button></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
 
     <h2 align="center">Add Customer</h2>
-    <form id="addcustomer" method="POST" align="center">
+    <form id="addcustomer" method="POST" align="center" action="{{ url_for('customer_results') }}">
         Name: <input type="text" name="name"><br>
         Address: <input type="text" name="address"><br>
-        Customer ID: <input type="text" name="customer_ID"><br>
         <input type="submit" value="Submit">
     </form>
 

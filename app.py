@@ -55,8 +55,13 @@ def weapon_result():
         return render_template('Weapon.html')
 
 
-@webapp.route('/orders', methods=['POST', 'GET'])
+@webapp.route('/orders/')
 def orders():
+    return render_template('Orders.html')
+
+
+@webapp.route('/orders', methods=['POST', 'GET'])
+def order_results():
     cursor = db_conn.cursor()
 
     if request.method == "GET":
@@ -103,8 +108,13 @@ def stock():
         return render_template('Stock.html')
 
 
-@webapp.route('/customer', methods=['POST', 'GET'])
+@webapp.route('/customer/')
 def customer():
+    return render_template('Customer.html')
+
+
+@webapp.route('/customer', methods=['POST', 'GET'])
+def customer_results():
     cursor = db_conn.cursor()
 
     if request.method == "GET":
@@ -118,9 +128,9 @@ def customer():
         details = request.form
         name = details['name']
         address = details['address']
-        customer_ID = details['customer_ID']
-        data = (name, address, customer_ID)
-        cursor.execute("INSERT INTO Customer (name, address, customer_ID) VALUES (%s, %s, %s)", data)
+        # customer_ID = details['customer_ID']
+        data = (name, address)
+        cursor.execute("INSERT INTO Customer (name, address) VALUES (%s, %s)", data)
         db_conn.commit()
         return render_template('Customer.html')
 
