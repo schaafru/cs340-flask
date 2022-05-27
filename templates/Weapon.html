@@ -21,7 +21,6 @@
                 <table cellspacing="3" border="0">
                     <tr bgcolor="#ffffff">
                         <th>Weapon_ID</th>
-                        <th>Order_ID</th>
                         <th>Price</th>
                         <th>Action</th>
                     </tr>
@@ -29,7 +28,6 @@
                         {% for r in rows %}
                         <td>{{ r[0] }}</td>
                         <td>{{ r[1] }}</td>
-                        <td>{{ r[2] }}</td>
                         <td><button type="button">Delete</button></td>
                         {% endfor %}
                     </tr>
@@ -38,17 +36,15 @@
         </tr>
     </table>
 
-   <h2 align="center">Add Weapon</h2>
+   <h2 align="center">Add Customer</h2>
     <form id="addweapon" method="POST" align="center" action="{{ url_for('weapon_result') }}">
-        Order ID: <input type="text" name="order_ID"><br>
-        Price: <input type="text" name="price"><br>
-        Weapon ID: <input type="text" name="weapon_ID"><br>
+        price: <input type="text" name="price"><br>
+        weapon_ID: <input type="text" name="weapon_ID"><br>
         <input type="submit" value="Submit">
     </form>
 
     <h2 align="center">Update Weapon</h2>
     <form id="updateweapon" method="POST" align="center" action="{{ url_for('weapon_update') }}">
-        Order ID: <input type="text" name="order_ID"><br>
         Price: <input type="text" name="price"><br>
         Weapon ID: <input type="text" name="weapon_ID"><br>
         <input type="submit" value="Submit">

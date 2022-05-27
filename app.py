@@ -35,7 +35,7 @@ def weapon():
     conn = db_conn()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT weapon_ID, order_ID, price FROM Weapon;")
+    cursor.execute("SELECT weapon_ID, price FROM Weapon;")
     r = cursor.fetchall()
     print(r)
     return render_template('Weapon.html', rows=r)
@@ -49,11 +49,10 @@ def weapon_result():
     if request.method == "POST":
         details = request.form
         price = details['price']
-        order_ID = details['order_ID']
         weapon_ID = details['weapon_ID']
-        data = (price, order_ID, weapon_ID)
-        cursor.execute("INSERT INTO Weapon (price, order_ID, weapon_ID) VALUES "
-                       "(%s, %s, %s)", data)
+        data = (price, weapon_ID)
+        cursor.execute("INSERT INTO Weapon (price, weapon_ID) VALUES "
+                       "(%s, %s)", data)
         conn.commit()
         return render_template('Weapon.html')
 
@@ -66,11 +65,10 @@ def weapon_update():
     if request.method == "POST":
         details = request.form
         price = details['price']
-        order_ID = details['order_ID']
         weapon_ID = details['weapon_ID']
-        data = (price, order_ID, weapon_ID)
-        cursor.execute("UPDATE Weapon SET (price, order_id, weapon_ID) VALUES "
-                       "(%s, %s, %s)", data)
+        data = (price, weapon_ID)
+        cursor.execute("UPDATE Weapon SET (price, weapon_ID) VALUES "
+                       "(%s, %s)", data)
         conn.commit()
         return render_template('Weapon.html')
 
