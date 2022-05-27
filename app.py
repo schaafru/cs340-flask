@@ -84,8 +84,13 @@ def order_results():
         return render_template('Orders.html')
 
 
-@webapp.route('/stock', methods=['POST', 'GET'])
+@webapp.route('/stock/')
 def stock():
+    return render_template('Stock.html')
+
+
+@webapp.route('/stock', methods=['POST', 'GET'])
+def stock_results():
     cursor = db_conn.cursor()
 
     if request.method == "GET":
@@ -110,25 +115,22 @@ def stock():
 
 @webapp.route('/customer/')
 def customer():
-    return render_template('Customer.html')
+    cursor = db_conn.cursor()
+
+    cursor.execute("SELECT name, address, customer_ID FROM Customer;")
+    r = cursor.fetchall()
+    print(r)
+    return render_template('Customer.html', rows=r)
 
 
 @webapp.route('/customer', methods=['POST', 'GET'])
 def customer_results():
     cursor = db_conn.cursor()
 
-    if request.method == "GET":
-        cursor.execute("SELECT name, address, customer_ID FROM Customer;")
-        r = cursor.fetchall()
-        print(r)
-        return render_template('Customer.html', rows=r)
-
-    elif request.method == "POST":
-        cursor = db_conn.cursor()
+    if request.method == "POST":
         details = request.form
         name = details['name']
         address = details['address']
-        # customer_ID = details['customer_ID']
         data = (name, address)
         cursor.execute("INSERT INTO Customer (name, address) VALUES (%s, %s)", data)
         db_conn.commit()
