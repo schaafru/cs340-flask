@@ -53,6 +53,24 @@ def weapon_result():
         return render_template('Weapon.html')
 
 
+@webapp.route('/weapon', methods=['POST', 'GET'])
+def weapon_update():
+    cursor = db_conn.cursor()
+
+    if request.method == "POST":
+        details = request.form
+        currency = details['currency']
+        customer_ID = details['customer_ID']
+        order_date = details['order_date']
+        order_ID = details['order_ID']
+        weapon_ID = details['weapon_ID']
+        data = (currency, customer_ID, order_date, order_ID, weapon_ID)
+        cursor.execute("UPDATE Weapon SET (currency, customer_ID, order_date, order_id, weapon_ID) VALUES " 
+                       "(%s, %s, %s, %s, %s)", data)
+        db_conn.commit()
+        return render_template('Weapon.html')
+
+
 @webapp.route('/orders/')
 def orders():
     cursor = db_conn.cursor()
