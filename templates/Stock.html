@@ -19,7 +19,7 @@
     <table cellspacing="0" cellpadding="0" border="0" bgcolor="#000000" align="center">
         <tr>
             <td>
-                <table cellspacing="3" border="0">
+                <table cellspacing="3" border="0">  <!--First row of the database table-->
                     <tr bgcolor="#ffffff">
                         <th>Total Number of Items</th>
                         <th>Number of Items Available</th>
@@ -28,7 +28,7 @@
                         <th>Action</th>
                     </tr>
                     {% for r in rows%}
-                    <tr bgcolor="#ffffff">
+                    <tr bgcolor="#ffffff">  <!--Code for every subsequent row with delete functionality-->
                         <td>{{ r.0 }}</td>
                         <td>{{ r[1] }}</td>
                         <td>{{ r[2] }}</td>
@@ -41,6 +41,7 @@
         </tr>
     </table>
 
+    <!--Add Stock Prompt-->
     <h2 align="center">Add Stock</h2>
     <form id="addstock" method="POST" align="center" action="{{ url_for('stock_results') }}">
         Number of Items Available: <input type="text" name="number_of_items_available"><br>
@@ -50,6 +51,7 @@
         <input type="submit" value="Submit">
     </form>
 
+    <!--Update Stock Prompt-->
     <h3 align="center">Update Stock</h3>
     <div class="form" align="center">
         <label>Total Number of Items:</label>

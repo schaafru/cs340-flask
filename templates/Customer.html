@@ -21,13 +21,13 @@
                 <td>
                     <form id="displaycustomers" method="GET" action="{{ url_for('customer_results') }}">
                     <table cellspacing="3" border="0">
-                        <tr bgcolor="#ffffff">
+                        <tr bgcolor="#ffffff"> <!--First row of the database table-->
                             <th>Name</th>
                             <th>Address</th>
                             <th>Customer ID</th>
                             <th>Action</th>
                         </tr>
-                        {% for r in rows%}
+                        {% for r in rows%}  <!--Code for every subsequent row with delete functionality-->
                         <tr bgcolor="#ffffff">
                             <td>{{ r.0 }}</td>
                             <td>{{ r[1] }}</td>
@@ -41,13 +41,14 @@
             </tr>
         </table>
 
+        <!--Add Customer Prompt-->
     <h2 align="center">Add Customer</h2>
     <form id="addcustomer" method="POST" align="center">
         Name: <input type="text" name="name"><br>
         Address: <input type="text" name="address"><br>
         <input type="submit" value="Submit">
     </form>
-
+        <!--Update Customer Prompt-->
     <h2 align="center">Update Customer</h2>
     <form id="updatecustomer" method="POST" align="center">
         Name: <input type="text" name="name" value=""><br>

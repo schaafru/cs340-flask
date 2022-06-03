@@ -17,7 +17,7 @@ mysql_config = read_config_section(os.path.join(os.path.expanduser("~"), ".my.cn
 config_info_list = [mysql_config[k]
                     for k in ['host', 'user', 'password', 'database']]
 
-
+# connects to the database
 def db_conn():
     return MySQLdb.connect(*config_info_list)
 
@@ -29,7 +29,7 @@ webapp = flask.Flask(__name__, static_url_path='/static')
 def home():
     return render_template('Home.html')
 
-
+# displays weapon page
 @webapp.route('/weapon/')
 def weapon():
     conn = db_conn()
@@ -40,7 +40,7 @@ def weapon():
     print(r)
     return render_template('Weapon.html', rows=r)
 
-
+# displays weapon insert form
 @webapp.route('/weapon_result', methods=['POST', 'GET'])
 def weapon_result():
     conn = db_conn()
@@ -56,7 +56,7 @@ def weapon_result():
         conn.commit()
         return render_template('Weapon.html')
 
-
+# displays weapon update form
 @webapp.route('/weapon_update', methods=['POST', 'GET'])
 def weapon_update():
     conn = db_conn()
@@ -72,7 +72,7 @@ def weapon_update():
         conn.commit()
         return render_template('Weapon.html')
 
-
+# displays order page
 @webapp.route('/orders/')
 def orders():
     conn = db_conn()
@@ -83,7 +83,7 @@ def orders():
     print(r)
     return render_template('Orders.html', rows=r)
 
-
+# displays order request form
 @webapp.route('/orders', methods=['POST', 'GET'])
 def order_results():
     conn = db_conn()
@@ -101,7 +101,7 @@ def order_results():
         conn.commit()
         return render_template('Orders.html')
 
-
+# displays stock page
 @webapp.route('/stock/')
 def stock():
     conn = db_conn()
@@ -112,7 +112,7 @@ def stock():
     print(r)
     return render_template('Stock.html', rows=r)
 
-
+# displays stock request form
 @webapp.route('/stock', methods=['POST', 'GET'])
 def stock_results():
     conn = db_conn()
@@ -130,7 +130,7 @@ def stock_results():
         conn.commit()
         return render_template('Stock.html')
 
-
+# displays customer page
 @webapp.route('/customer/')
 def customer():
     conn = db_conn()
@@ -141,7 +141,7 @@ def customer():
     print(r)
     return render_template('Customer.html', rows=r)
 
-
+# displays customer request form
 @webapp.route('/customer', methods=['POST', 'GET'])
 def customer_results():
     conn = db_conn()
@@ -156,6 +156,7 @@ def customer_results():
         conn.commit()
         return render_template('Customer.html')
 
+# Original customer functionality
 
 # @webapp.route('/customer/<int:id>', methods=['POST', 'GET'])
 # def customer_update(id):

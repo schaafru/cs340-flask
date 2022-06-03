@@ -18,13 +18,13 @@
     <table cellspacing="0" cellpadding="0" border="0" bgcolor="#000000" align="center">
         <tr>
             <td>
-                <table cellspacing="3" border="0">
+                <table cellspacing="3" border="0">  <!--First row of the database table-->
                     <tr bgcolor="#ffffff">
                         <th>Weapon_ID</th>
                         <th>Price</th>
                         <th>Action</th>
                     </tr>
-                    {% for r in rows %}
+                    {% for r in rows %} <!--Code for every subsequent row with delete functionality-->
                     <tr bgcolor="#ffffff">
                         <td>{{ r[0] }}</td>
                         <td>{{ r[1] }}</td>
@@ -36,6 +36,7 @@
         </tr>
     </table>
 
+    <!--Add Weapon Prompt-->
    <h2 align="center">Add Weapon</h2>
     <form id="addweapon" method="POST" align="center" action="{{ url_for('weapon_result') }}">
         price: <input type="text" name="price"><br>
@@ -43,6 +44,7 @@
         <input type="submit" value="Submit">
     </form>
 
+    <!--Update Weapon Prompt-->
     <h2 align="center">Update Weapon</h2>
     <form id="updateweapon" method="POST" align="center">
         Price: <input type="text" name="price"><br>
