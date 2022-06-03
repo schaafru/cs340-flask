@@ -42,17 +42,17 @@
         </table>
 
     <h2 align="center">Add Customer</h2>
-    <form id="addcustomer" method="POST" align="center" action="{{ url_for('customer_results') }}">
+    <form id="addcustomer" method="POST" align="center">
         Name: <input type="text" name="name"><br>
         Address: <input type="text" name="address"><br>
         <input type="submit" value="Submit">
     </form>
 
     <h2 align="center">Update Customer</h2>
-    <form id="updatecustomer" method="POST" align="center" action="/customer_update/{{customer[0]}}">
-        Name: <input type="text" name="name" value="{{ customer[0] }}"><br>
-        Address: <input type="text" name="address" value="{{ customer[1] }}"><br>
-        customer_ID: <input type="text" name="customer_ID" value="{{ customer[2] }}"><br>
+    <form id="updatecustomer" method="POST" align="center">
+        Name: <input type="text" name="name" value=""><br>
+        Address: <input type="text" name="address" value=""><br>
+        customer_ID: <input type="text" name="customer_ID" value=""><br>
         <input type="submit" value="Submit">
     </form>
 

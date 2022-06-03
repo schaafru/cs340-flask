@@ -41,7 +41,7 @@ def weapon():
     return render_template('Weapon.html', rows=r)
 
 
-@webapp.route('/weapon', methods=['POST', 'GET'])
+@webapp.route('/weapon_result', methods=['POST', 'GET'])
 def weapon_result():
     conn = db_conn()
     cursor = conn.cursor()
@@ -57,7 +57,7 @@ def weapon_result():
         return render_template('Weapon.html')
 
 
-@webapp.route('/weapon', methods=['POST', 'GET'])
+@webapp.route('/weapon_update', methods=['POST', 'GET'])
 def weapon_update():
     conn = db_conn()
     cursor = conn.cursor()
@@ -157,43 +157,43 @@ def customer_results():
         return render_template('Customer.html')
 
 
-@webapp.route('/customer/<int:id>', methods=['POST', 'GET'])
-def customer_update(id):
-    conn = db_conn()
-    cursor = conn.cursor()
-
-    if request.method == "GET":
-        cursor.execute('SELECT name, address, customer_ID from Customer WHERE id = %s'
-                       % id)
-        customer_result = cursor.fetchone()
-
-        if customer_result is None:
-            return "No such person found!"
-
-        return render_template('Customer.html', customer=customer_result)
-
-    if request.method == "POST":
-        details = request.form
-        customer_ID = details['customer_ID']
-        name = details['name']
-        address = details['address']
-        data = (name, address, customer_ID)
-        cursor.execute("UPDATE Customer SET (name, address) VALUES "
-                       "(%s, %s) WHERE id = %s", data)
-        conn.commit()
-        return render_template('Customer.html')
-
-@webapp.route('/customer/<int:id>')
-def customer_delete(id):
-    conn = db_conn()
-    cursor = conn.cursor()
-
-    details = request.form
-    customer_ID = details['customer_ID']
-    data = (customer_ID)
-    cursor.execute("DELETE FROM Customer WHERE customer_ID = %s", data)
-    conn.commit()
-    return render_template('Customer.html')
+# @webapp.route('/customer/<int:id>', methods=['POST', 'GET'])
+# def customer_update(id):
+#     conn = db_conn()
+#     cursor = conn.cursor()
+#
+#     if request.method == "GET":
+#         cursor.execute('SELECT name, address, customer_ID from Customer WHERE id = %s'
+#                        % id)
+#         customer_result = cursor.fetchone()
+#
+#         if customer_result is None:
+#             return "No such person found!"
+#
+#         return render_template('Customer.html', customer=customer_result)
+#
+#     if request.method == "POST":
+#         details = request.form
+#         customer_ID = details['customer_ID']
+#         name = details['name']
+#         address = details['address']
+#         data = (name, address, customer_ID)
+#         cursor.execute("UPDATE Customer SET (name, address) VALUES "
+#                        "(%s, %s) WHERE id = %s", data)
+#         conn.commit()
+#         return render_template('Customer.html')
+#
+# @webapp.route('/customer/<int:id>')
+# def customer_delete(id):
+#     conn = db_conn()
+#     cursor = conn.cursor()
+#
+#     details = request.form
+#     customer_ID = details['customer_ID']
+#     data = (customer_ID)
+#     cursor.execute("DELETE FROM Customer WHERE customer_ID = %s", data)
+#     conn.commit()
+#     return render_template('Customer.html')
 
 
 if __name__ == '__main__':
